@@ -1,0 +1,35 @@
+{% extends 'app/base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h3>Progress for Exam: {{ exam.title }}</h3>
+    <hr>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Student</th>
+                <th>Answered</th>
+                <th>Total Questions</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in progress_data %}
+            <tr>
+                <td>{{ data.student.username }}</td>
+                <td>{{ data.answered }}</td>
+                <td>{{ data.total }}</td>
+                <td>
+                    {% if data.status == "Completed" %}
+                        <span class="badge bg-success">{{ data.status }}</span>
+                    {% elif data.status == "In Progress" %}
+                        <span class="badge bg-warning text-dark">{{ data.status }}</span>
+                    {% else %}
+                        <span class="badge bg-secondary">{{ data.status }}</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

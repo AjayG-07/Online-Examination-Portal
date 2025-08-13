@@ -1,0 +1,15 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>Create Question for "{{ exam.title }}"</h2>
+
+  <form method="post" action="{% url 'question_create' exam.id %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary mt-3">Create</button>
+  </form>
+
+  <a href="{% url 'question_list' exam.id %}" class="btn btn-link mt-3">Back to Questions</a>
+</div>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'app/base.html' %}
+{% block content %}
+<div class="container my-5">
+  <div class="card shadow-sm" style="max-width: 800px; margin: auto; padding: 30px; background: #c2bfbf;; border-radius: 8px; font-family: 'Georgia', serif;">
+    <h2 class="mb-4 text-center" style="font-weight: 700; letter-spacing: 1px;">{{ exam.title }}</h2>
+
+    <p class="text-center mb-4" style="font-size: 1.1rem;">
+      <strong>Time Remaining:</strong> <span id="timer" class="text-danger fw-bold"></span>
+    </p>
+
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {% for question in questions %}
+        <div class="mb-4 p-3 border rounded" style="background: #fdfcf8; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <p class="mb-0" style="font-weight: 600; font-size: 1.05rem;">
+              Q{{ forloop.counter }}. {{ question.question_text }}
+            </p>
+            <span class="badge bg-secondary" style="font-size: 0.85rem;">{{ question.marks }} Marks</span>
+          </div>
+
+          <div>
+            {% for option in question.options %}
+              <div class="form-check">
+                <input class="form-check-input" type="radio" 
+                       name="question_{{ question.id }}" 
+                       id="q{{ question.id }}_opt{{ forloop.counter }}" 
+                       value="{{ option }}">
+                <label class="form-check-label" for="q{{ question.id }}_opt{{ forloop.counter }}">
+                  {{ option }}
+                </label>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary btn-lg px-5 mt-4">Submit Exam</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  const endTime = new Date("{{ end_time|date:'Y-m-d H:i:s' }}").getTime();
+  const timer = document.getElementById("timer");
+  let submitted = false;
+
+  const countdown = setInterval(() => {
+    const now = new Date().getTime();
+    const distance = endTime - now;
+
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    timer.innerHTML = `${minutes}m ${seconds}s`;
+
+    if (distance < 0 && !submitted) {
+      clearInterval(countdown);
+      timer.innerHTML = "Time's up!";
+      submitted = true;
+
+      document.forms[0].submit();
+    }
+  }, 1000);
+</script>
+{% endblock %}

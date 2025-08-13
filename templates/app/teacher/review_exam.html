@@ -1,0 +1,45 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-4">
+    <h3>Review Exam: {{ exam.title }} | Student: {{ student.username }}</h3>
+    <form method="post">
+        {% csrf_token %}
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Question</th>
+                    <th>Selected Answer</th>
+                    <th>Correct Answer</th>
+                    <th>Is Correct</th>
+                    <th>Comment</th>
+                    <th>Adjusted Marks</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for response in responses %}
+                <tr>
+                    <td>{{ response.question.question_text }}</td>
+                    <td>{{ response.selected_option }}</td>
+                    <td>{{ response.question.correct_option }}</td>
+                    <td>
+                        {% if response.is_correct %}
+                            <span class="badge bg-success">Correct</span>
+                        {% else %}
+                            <span class="badge bg-danger">Wrong</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <textarea name="comment_{{ response.id }}" class="form-control">{{ response.teacher_comment }}</textarea>
+                    </td>
+                    <td>
+                        <input type="number" name="marks_{{ response.id }}" value="{{ response.adjusted_marks }}" class="form-control" min="0">
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-primary">Submit Review</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+    {% if exam_result %}
+        <div class="card mb-4">
+            <div class="card-header text-dark">
+                <h4>{{ exam_result.exam.title }}</h4>
+                <p><strong>Marks Obtained:</strong> {{ exam_result.correct_answers }} / {{ exam_result.total_questions }} ({{ exam_result.percentage }}%)</p>
+                <p><strong>Grade:</strong> {{ exam_result.grade }}</p>
+                <p><strong>Result:</strong> 
+                    {% if exam_result.status == "Pass" %}
+                        <span class="text-success fw-bold">Passed</span>
+                    {% else %}
+                        <span class="text-danger fw-bold">Failed</span>
+                    {% endif %}
+                </p>
+            </div>
+
+            <div class="card-body">
+                {% for response in exam_result.responses %}
+                    <div class="mb-3">
+                        <p><strong>Q{{ forloop.counter }}:</strong> {{ response.question.question_text }}</p>
+                        {% if response.selected_option == "Not Answered" %}
+                            <p class="text-danger"><strong>❌ You did not answer this question.</strong></p>
+                        {% endif %}
+
+                        <ul class="list-group">
+                            {% for option in response.options %}
+                            <li class="list-group-item
+                                {% if option == response.selected_option and response.is_correct %}
+                                    list-group-item-success fw-bold
+                                {% elif option == response.selected_option %}
+                                    list-group-item-danger fw-bold
+                                {% elif option == response.correct_option_value %}
+                                    list-group-item-success
+                                {% endif %}
+                            ">
+                                {{ option }}
+                                {% if option == response.selected_option %}
+                                    <span class="badge bg-secondary float-end">Your Answer</span>
+                                {% endif %}
+                                {% if option == response.correct_option_value %}
+                                    <span class="badge bg-success float-end ms-2 mx-2  ">Correct</span>
+                                {% endif %}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        <hr>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        <p>No exam attempts yet.</p>
+    {% endif %}
+{% endblock %}

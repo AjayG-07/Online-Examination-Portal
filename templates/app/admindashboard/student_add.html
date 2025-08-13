@@ -1,0 +1,37 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4 text-success">👩‍🎓 Add New Student</h2>
+
+  <div class="card shadow-lg p-4 border-0">
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+
+      {% for field in form %}
+        <div class="mb-3">
+          <label for="{{ field.id_for_label }}" class="form-label fw-semibold">{{ field.label }}</label>
+          {{ field }}
+          {% if field.errors %}
+            <div class="text-danger small mt-1">
+              {% for error in field.errors %}
+                {{ error }}<br>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+
+      <div class="d-flex justify-content-between mt-4">
+        <button type="submit" class="btn btn-primary">
+          💾 Add Student
+        </button>
+        <a href="{% url 'adminstudent_list' %}" class="btn btn-outline-secondary">
+          ⬅️ Back
+        </a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

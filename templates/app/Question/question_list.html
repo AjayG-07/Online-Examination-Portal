@@ -1,0 +1,25 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>Questions for Exam: {{ exam_data.title }}</h2>
+
+  <a href="{% url 'question_create' exam_data.id %}" class="btn btn-success mb-3">Add Question</a>
+
+  <ul class="list-group">
+    {% for question in questions %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        {{ question.question_text }}
+        <span>
+          <a href="{% url 'question_edit' exam_data.id question.id %}" class="btn btn-sm btn-primary me-2">Edit</a>
+          <a href="{% url 'question_delete' exam_data.id question.id %}" class="btn btn-sm btn-danger">Delete</a>
+        </span>
+      </li>
+    {% empty %}
+      <li class="list-group-item">No questions added yet.</li>
+    {% endfor %}
+  </ul>
+
+  <a href="{% url 'exam_list' %}" class="btn btn-secondary mt-3">Back to Exams</a>
+</div>
+{% endblock %}

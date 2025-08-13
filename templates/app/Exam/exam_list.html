@@ -1,0 +1,23 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>Exam List</h2>
+  <a href="{% url 'exam_create' %}" class="btn btn-success mb-3">Create New Exam</a>
+  <ul class="list-group">
+    {% for exam in exams %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+          <strong>{{ exam.title }}</strong> ({{ exam.date|date:"M d, Y H:i" }})
+        </div>
+        <div>
+          <a href="{% url 'exam_edit' exam.pk %}" class="btn btn-sm btn-primary me-2">Edit</a>
+          <a href="{% url 'exam_delete' exam.pk %}" class="btn btn-sm btn-danger">Delete</a>
+        </div>
+      </li>
+    {% empty %}
+      <li class="list-group-item">No exams found.</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

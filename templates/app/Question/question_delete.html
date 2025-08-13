@@ -1,0 +1,17 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>Delete Question</h2>
+  <p>Are you sure you want to delete this question?</p>
+  <blockquote class="blockquote">
+    "{{ question.question_text }}"
+  </blockquote>
+
+  <form method="post" class="mb-3">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+    <a href="{% url 'question_list' exam.id %}" class="btn btn-secondary ms-2">Cancel</a>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Assign Exam: {{ exam.title }}</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit" class="btn btn-primary">Assign Exam</button>
+        <a href="{% url 'student_list' %}" class="btn btn-secondary">Back to Student List</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block content %}
+{% load widget_tweaks %}
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: black;
+        /* overflow: hidden; */
+    }
+
+    .stars-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -1;
+    }
+
+    .star {
+        position: absolute;
+        background-color: white;
+        border-radius: 50%;
+        opacity: 0.8;
+        animation: blink 2s infinite ease-in-out;
+    }
+
+    @keyframes blink {
+        0%, 100% { opacity: 0.1; transform: scale(1); }
+        50% { opacity: 1; transform: scale(1.5); }
+    }
+</style>
+
+<!-- 🌌 Background Stars -->
+<div class="stars-container" id="stars-container"></div>
+
+<script>
+    const container = document.getElementById('stars-container');
+    const starCount = 100;
+
+    for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+        star.style.width = `${Math.random() * 2 + 1}px`;
+        star.style.height = `${Math.random() * 2 + 1}px`;
+        star.style.top = `${Math.random() * 100}vh`;
+        star.style.left = `${Math.random() * 100}vw`;
+        star.style.animationDuration = `${Math.random() * 3 + 1}s`;
+        star.style.animationDelay = `${Math.random() * 2}s`;
+        container.appendChild(star);
+    }
+</script>
+
+<!-- 🔐 Login Form Card -->
+<div class="container flex-grow-1 d-flex justify-content-center align-items-center" style="height: 80vh;">
+    <div class="card shadow-lg p-4" style="width: 100%; max-width: 450px; background-color: rgba(0, 0, 0, 0.85); color: white;border: 1px solid white;">
+        <h2 class="text-center mb-4 text-info">👨‍💻 Login 👨‍💻</h2>
+
+        <form method="POST" novalidate>
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="mb-3">
+                    <label class="form-label text-light">{{ field.label }}</label>
+                    {% render_field field class="form-control bg-dark text-white border-info" placeholder=field.label %}
+                    <div class="text-danger small">{{ field.errors }}</div>
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="btn btn-info w-100 mt-2">Login</button>
+        </form>
+
+        <hr class="my-4 border-light">
+
+        <div class="d-grid gap-2">
+            <a href="{% url 'signup' %}" class="btn btn-outline-light">Sign Up</a>
+            <a href="{% url 'admin_signup' %}" class="btn btn-outline-light">Admin Sign Up</a>
+            <a href="{% url 'teacher_signup' %}" class="btn btn-outline-light">Teacher Sign Up</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

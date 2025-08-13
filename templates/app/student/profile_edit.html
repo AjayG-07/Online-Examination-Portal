@@ -1,0 +1,10 @@
+<!-- templates/profiles/profile_edit.html -->
+{% extends 'app/base.html' %}
+{% block content %}
+<h2>Edit Profile - {{ user_profile.username }}</h2>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Save Changes</button>
+</form>
+{% endblock %}

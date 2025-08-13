@@ -1,0 +1,83 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class="mb-4">📊 Exam Analytics: {{ exam.title }}</h2>
+
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card text-white bg-primary shadow">
+                <div class="card-body">
+                    <h5>Total Students Attempted</h5>
+                    <h3>{{ total_students }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-success shadow">
+                <div class="card-body">
+                    <h5>Average Score</h5>
+                    <h3>{{ avg_score }} / {{ max_marks }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h4 class="mt-5">👩‍🎓 Student Scores</h4>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Student</th>
+                    <th>Total Correct</th>
+                    <th>Total Marks</th>
+                    <th>Adjusted Marks</th>
+                    <th>Percentage</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for score in student_scores %}
+                <tr>
+                    <td>{{ score.student__username }}</td>
+                    <td>{{ score.total_correct }}</td>
+                    <td>{{ score.total_marks }}</td>
+                    <td>{{ score.adjusted_total }}</td>
+                    <td>{{ score.percentage }}%</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">No submissions yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <h4 class="mt-5">📌 Question-Level Stats</h4>
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead class="table-light">
+            <tr>
+                <th>Question</th>
+                <th>Correct Attempts</th>
+                <th>Total Attempts</th>
+                <th>Question Attempt</th>
+            </tr>
+        </thead>
+        <tbody>
+           {% for q in question_stats %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ q.question_text|truncatechars:100 }}</td>  
+                <td>{{ q.correct_count }}</td>
+                <td>{{ q.total_attempts }}</td>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+</div>
+
+</div>
+{% endblock %}

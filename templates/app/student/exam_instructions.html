@@ -1,0 +1,39 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+  <h2 class="mb-4" style="display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    background: linear-gradient(45deg, #0ebde4, transparent, #0844d5);
+    padding: 10px;
+    width: 10rem;
+    border-radius: 2rem;
+    border: 2px solid;
+    box-shadow: 3px 4px 5px black;">{{ exam.title }}</h2>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+
+      <h5 class="card-title mb-3 " ><strong>Instructions</strong></h5>
+      <p class="card-text" style="white-space: pre-line;">
+        {{ exam.description|linebreaksbr }}
+      </p>
+
+      <hr>
+
+      <p><strong>Duration:</strong> {{ exam.duration }} minutes</p>
+      <p><strong>Date:</strong> {{ exam.date }}</p>
+
+      <div class="mt-4">
+        <a href="{% url 'start_exam' exam.id %}" class="btn btn-primary me-2">Start Exam</a>
+        <a href="{% url 'student_result' %}" class="btn btn-success">View My Results</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}

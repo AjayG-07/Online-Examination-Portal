@@ -1,0 +1,15 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="card shadow-sm p-4 text-center">
+    <h2 class="mb-4 text-danger">⚠️ Confirm Delete</h2>
+    <p class="mb-4">Are you sure you want to delete <strong>{{ user.username }}</strong>?</p>
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger me-2">Yes, Delete</button>
+      <a href="{% url 'adminstudent_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+  </div>
+</div>
+{% endblock %}

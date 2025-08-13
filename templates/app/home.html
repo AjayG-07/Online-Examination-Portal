@@ -1,0 +1,205 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% load tz %}
+
+{% block style %}
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+  </div>
+  <div class="carousel-inner cstyle">
+    <div class="carousel-item active" data-bs-interval="3000">
+      <img src="https://img.freepik.com/free-vector/realistic-design-technology-background_23-2148426705.jpg?ga=GA1.1.363539920.1738163694&semt=ais_hybrid&w=740" class="d-block w-100" alt="Exam Preparation">
+      <div class="carousel-caption d-none d-md-block text-start" style="position: absolute; bottom: 28%; left: 40%;">
+        <h1 class="display-4 fw-bold text-white">Online Examination Portal</h1>
+        <p class="lead text-white">Seamless exam experience for students and teachers. Anywhere. Anytime.</p>
+        <a href="{% url 'exam_list' %}" class="btn btn-outline-primary btn-lg mt-3">Get Started</a>
+      </div>
+    </div>
+    <div class="carousel-item" data-bs-interval="3000">
+      <img src="{% static 'img/exam-hero3.jpg' %}" class="d-block w-100" alt="Smart Testing">
+      <div class="carousel-caption d-none d-md-block text-start" style="position: absolute; bottom: 38%; left: 28%;">
+        <h1 class="display-4 fw-bold text-black">Smart. Secure. Scalable.</h1>
+        <p class="lead text-black">Conduct, monitor, and grade exams with ease.</p>
+        <a href="{% url 'teacher_signup' %}" class="btn btn-warning btn-lg mt-3">Teacher Login</a>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'img/exam-hero1.jpg' %}" class="d-block w-100" alt="Exam Performance">
+      <div class="carousel-caption d-none d-md-block text-start" style="position: absolute; bottom: 40%; left: 10%;">
+        <h1 class="display-4 fw-bold text-black">Track Performance Instantly</h1>
+        <p class="lead text-black">Instant reports, insights, and student analytics at your fingertips.</p>
+        <a href="{% url 'student_dashboard' %}" class="btn btn-success btn-lg mt-3">View Dashboard</a>
+      </div>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+<!-- End Hero Section -->
+
+<!-- Latest Exams Section with Cards -->
+<div class="container my-5">
+  <h2 class="mb-4">Latest Exams</h2>
+  <div class="row">
+    {% for exam in page_exams %}
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm h-100">
+          <div class="card-body" style=" background-image: linear-gradient(76deg, #101266,blue);">
+            <h5 class="card-title text-white ">{{ exam.title }}</h5>
+            <p class="card-text text-white ">{{ exam.description|truncatewords:20 }}</p>
+          </div>
+          <div class="card-footer d-flex justify-content-center align-items-center" style="background-image: linear-gradient(76deg, #0f14d7, #eaf2f2, blue);" >
+            <!-- <small class="text-muted">Created on: {{ exam.created_at|date:"M d, Y" }}</small> -->
+            <a href="{% url 'exam_instructions' exam.id %}" class="btn btn-outline-white btn-sm">View</a>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p>No exams available at the moment.</p>
+    {% endfor %}
+  </div>
+
+  <!-- Pagination Controls -->
+  <nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center mt-4">
+      {% if page_exams.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_exams.previous_page_number }}">Previous</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled"><span class="page-link">Previous</span></li>
+      {% endif %}
+      {% for num in page_exams.paginator.page_range %}
+        {% if page_exams.number == num %}
+          <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+        {% else %}
+          <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+        {% endif %}
+      {% endfor %}
+      {% if page_exams.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_exams.next_page_number }}">Next</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled"><span class="page-link">Next</span></li>
+      {% endif %}
+    </ul>
+  </nav>
+</div>
+
+<!-- Key Features Section -->
+<section class="py-5 bg-light" style="background-image: linear-gradient(45deg, #155cca, transparent, blue);border-radius: 20px;
+    filter: drop-shadow(2px 4px 6px blue);">
+  <div class="container">
+    <h2 class="text-center mb-4">Why Choose Our Online Exam Portal?</h2>
+    <div class="row text-center">
+      <div class="col-md-4">
+        <i class="bi bi-journal-text display-4 text-primary mb-3"></i>
+        <h5>Easy Exam Creation</h5>
+        <p>Create MCQs, subjective and timed exams effortlessly.</p>
+      </div>
+      <div class="col-md-4">
+        <i class="bi bi-shield-lock display-4 text-primary mb-3"></i>
+        <h5>Secure & Reliable</h5>
+        <p>Anti-cheating measures and secure submissions guaranteed.</p>
+      </div>
+      <div class="col-md-4">
+        <i class="bi bi-bar-chart display-4 text-primary mb-3"></i>
+        <h5>Instant Analytics</h5>
+        <p>Real-time performance tracking and detailed results.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="py-5">
+  <div class="container">
+    <h2 class="text-center mb-5">How It Works</h2>
+    <div class="row text-center">
+      <div class="col-md-3">
+        <div class="p-3 border rounded shadow-sm" style="        background-image: linear-gradient(35deg, #f6f7f2, #e00606);
+    filter: drop-shadow(2px 3px 5px red);" >
+          <h4>1. Sign Up</h4>
+          <p>Create your account as a student or teacher.</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="p-3 border rounded shadow-sm" style="      background-image: linear-gradient(35deg, #f6f7f2, #e00606);
+    filter: drop-shadow(2px 3px 5px red);">
+          <h4>2. Create/Assign Exam</h4>
+          <p>Teachers create exams and assign them to students.</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="p-3 border rounded shadow-sm" style="       background-image: linear-gradient(35deg, #f6f7f2, #e00606);
+    filter: drop-shadow(2px 3px 5px red);">
+          <h4>3. Take Exam</h4>
+          <p>Students attend exams from any device, anywhere.</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="p-3 border rounded shadow-sm" style="        background-image: linear-gradient(35deg, #f6f7f2, #e00606);
+    filter: drop-shadow(2px 3px 5px red);">
+          <h4>4. Get Results</h4>
+          <p>Results are generated instantly or manually reviewed.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Role-Based Portals Section -->
+<section class="bg-light py-5">
+  <div class="container text-center">
+    <h2 class="mb-4">Choose Your Role</h2>
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <div class="card shadow-sm h-100" style="filter: drop-shadow(2px 3px 5px blue);" >
+          <div class="card-body" style=" background-image: linear-gradient(45deg, #0f6dea, transparent);border-bottom-right-radius: 100px;">
+            <h5 class="card-title">Admin Panel</h5>
+            <p class="card-text">Manage users, exams, reports, and the whole platform.</p>
+            <a href="{% url 'login' %}" class="btn btn-outline-primary">Admin Login</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="card shadow-sm h-100" style="filter: drop-shadow(2px 3px 5px red);">
+          <div class="card-body" style="    background-image: linear-gradient(45deg, #ea0f0f, transparent);border-bottom-right-radius: 100px;">
+            <h5 class="card-title">Teacher Panel</h5>
+            <p class="card-text">Create exams, view student performance, and grade submissions.</p>
+            <a href="{% url 'teacher_dashboard' %}" class="btn btn-outline-warning">Teacher Dashboard</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="card shadow-sm h-100" style="filter: drop-shadow(2px 3px 5px green);">
+          <div class="card-body" style="background-image: linear-gradient(45deg, #10c05b, transparent, #00ff03);
+    border-bottom-right-radius: 100px;">
+            <h5 class="card-title">Student Panel</h5>
+            <p class="card-text">Take exams, view your grades, and track progress.</p>
+            <a href="{% url 'student_dashboard' %}" class="btn btn-outline-success">Student Dashboard</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

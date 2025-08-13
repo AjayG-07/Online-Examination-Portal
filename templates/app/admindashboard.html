@@ -1,0 +1,71 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Admin Dashboard</h2>
+
+  <!-- Row for Exam & Question Boxes -->
+  <div class="row">
+    <!-- Exam Box -->
+    <div class="col-md-6 mb-4">
+      <div class="card shadow-sm border-primary" style="    background-color: #13d4ed;">
+        <div class="card-body" style="background: linear-gradient(169deg, #1725e0, transparent, #230dd0 470px);box-shadow: 2px 4px 5px #1212c5;border-top-left-radius: 50%; ">
+          <h4 class="card-title text-center text-white">Manage Exams</h4>
+          <p class="card-text text-center text-white ">Create, Edit, and Delete Exams</p>
+          <div class="text-center">
+            <a href="{% url 'exam_list' %}" class="btn btn-primary mb-2">View Exams</a>
+            <a href="{% url 'exam_create' %}" class="btn btn-success mb-2">Create Exam</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Question Box -->
+    <div class="col-md-6 mb-4">
+      <div class="card shadow-sm border-success" style="    background-color: #e08409bd;">
+        <div class="card-body" style="    background: linear-gradient(169deg, #e01717, transparent, red 470px); box-shadow: 2px 4px 5px #c51212;
+    border-top-left-radius: 50%; ">
+          <h4 class="card-title text-center">Manage Questions</h4>
+          <p class="card-text text-center">Create, Edit, and Delete Questions</p>
+          <div class="text-center">
+            <a href="{% url 'exam_dashboard' %}" class="btn btn-primary mb-2">View Questions</a>
+            <a href="{% url 'question_create' exam_id=2 %}" class="btn btn-success mb-2">Create Question</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row for Student & Teacher Management -->
+  <div class="row">
+    <!-- Student Management Card -->
+    <div class="col-md-6 mb-4">
+      <div class="card shadow-sm border-info">
+        <div class="card-body" style="background: linear-gradient(169deg, #1725e0, transparent, #230dd0 470px);" >
+          <h4 class="card-title text-center text-info text-black ">Manage Students</h4>
+          <p class="card-text text-center">Add, Edit, and Remove Students</p>
+          <div class="text-center">
+            <a href="{% url 'adminstudent_list' %}" class="btn btn-info mb-2">View Students</a>
+            <a href="{% url 'student_add' %}" class="btn btn-success mb-2">Add Student</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Teacher Management Card -->
+    <div class="col-md-6 mb-4">
+      <div class="card shadow-sm border-warning">
+        <div class="card-body" style="    background: linear-gradient(169deg, #e01717, transparent, red 470px);">
+          <h4 class="card-title text-center text-warning text-black">Manage Teachers</h4>
+          <p class="card-text text-center">Add, Edit, and Remove Teachers</p>
+          <div class="text-center">
+            <a href="{% url 'teacher_list' %}" class="btn btn-warning mb-2">View Teachers</a>
+            <a href="{% url 'teacher_add' %}" class="btn btn-success mb-2">Add Teacher</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

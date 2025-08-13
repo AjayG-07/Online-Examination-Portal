@@ -1,0 +1,48 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary">👩‍🏫 Teacher List</h2>
+        <a href="{% url 'teacher_add' %}" class="btn btn-success">
+            ➕ Add Teacher
+        </a>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            {% if teachers %}
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>👤 Username</th>
+                                <th>📧 Email</th>
+                                <th>⚙️ Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for teacher in teachers %}
+                            <tr>
+                                <td>{{ teacher.username }}</td>
+                                <td>{{ teacher.email }}</td>
+                                <td>
+                                    <a href="{% url 'teacher_edit' teacher.pk %}" class="btn btn-sm btn-warning me-1">
+                                        ✏️ Edit
+                                    </a>
+                                    <a href="{% url 'teacher_delete' teacher.pk %}" class="btn btn-sm btn-danger">
+                                        ❌ Delete
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="text-muted">No teachers found.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

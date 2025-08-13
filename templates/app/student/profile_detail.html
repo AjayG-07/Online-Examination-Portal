@@ -1,0 +1,13 @@
+<!-- templates/profiles/profile_detail.html -->
+{% extends 'app/base.html' %}
+{% block content %}
+<h2>{{ user_profile.get_full_name }}'s Profile</h2>
+<p><strong>Email:</strong> {{ user_profile.email }}</p>
+<p><strong>Phone:</strong> {{ user_profile.phone }}</p>
+<p><strong>Address:</strong> {{ user_profile.address }}</p>
+{% if user_profile.profile_image %}
+    <img src="{{ user_profile.profile_image.url }}" alt="Profile Image" style="max-width: 150px;">
+{% endif %}
+<a href="{% url 'profile_edit' user_profile.id %}" class="btn btn-info">Edit</a>
+<a href="{% url 'profile_delete' user_profile.id %}" class="btn btn-danger">Delete</a>
+{% endblock %}
